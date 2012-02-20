@@ -1,22 +1,20 @@
 #!/bin/sh
-#
-# An example hook script that is called after a successful
-# commit is made.
-#
-# To enable this hook, rename this file to "post-commit".
+# To enable this hook, put this file in .git/hooks/.
 
 (
     REASON="`git push 2>&1`"
     if [ $? != 0 ]; then
         notify-send \
             "Failed: git push" \
-            "$REASON" \
-            -c "transfer.error"
+            "Failed to push to \"$PWD\":\n$REASON" \
+            -c "transfer.error" \
+            --icon=dialog-error
     else
         notify-send \
             "Completed: git push" \
             "Pushed changes to \"$PWD\"." \
-            -c "transfer.complete"
+            -c "transfer.complete" \
+            --icon=dialog-information
     fi
 )&
 
